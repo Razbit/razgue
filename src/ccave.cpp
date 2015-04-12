@@ -37,6 +37,12 @@
 
 #include <stdlib.h>
 
+/* w: width not including walls
+ * h: height not including walls
+ * x: x-coordinate of the cave (leftmost tile, not a wall)
+ * y: y-coordinate of the cave (topmost tile, not a wall)
+ */
+
 CCave::CCave(int _w, int _h, int _x, int _y): w(_w), h(_h), x(_x), y(_y)
 {
     /* Allocate memory for the tiles */
@@ -46,7 +52,7 @@ CCave::CCave(int _w, int _h, int _x, int _y): w(_w), h(_h), x(_x), y(_y)
         tiles[i] = new CCaveTile[h];
     }
 
-    win = newwin(h, w, y, x);
+    win = newwin(h+2, w+2, y-1, x-1);
 }
 
 CCave::~CCave()
@@ -62,11 +68,11 @@ CCave::~CCave()
 
 int CCave::draw()
 {    
-    for (int i = 0; i < h; i++)
+    for (int i = 1; i <= h; i++)
     {
-        for (int j = 0; j < w; j++)
+        for (int j = 1; j <= w; j++)
         {
-            mvwaddch(win, y+i, x+j, '.');
+            mvwaddch(win, i, j, '.');
         }
     }
 

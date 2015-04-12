@@ -43,9 +43,15 @@
 class CCave
 {
 public:
+    /* w: width not including walls
+     * h: height not including walls
+     * x: x-coordinate of the cave (leftmost tile, not a wall)
+     * y: y-coordinate of the cave (topmost tile, not a wall)
+     */
     CCave(int _w, int _h, int _x, int _y);
     virtual ~CCave();
 
+    /* Draws the cave on the screen */
     int draw();
 
     int w, h;
