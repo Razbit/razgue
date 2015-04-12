@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Razgue -- a roguelike video game by Razbit
+ * @brief A "floor tile" in the caves
  * @author Eetu "Razbit" Pesonen
  * @version 0.01
  * @date 2015
@@ -25,29 +25,21 @@
  * along with Razgue.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#include "platform.h"
+#ifndef CCAVETILE_H
+#define CCAVETILE_H
 
-#ifdef PLATFORM_WIN32
-#include "curses.h"
-#else
-#include <curses.h>
-#endif
+#include <string.h>
 
-#include "ccave.h"
-
-using namespace std;
-
-int main()
+class CCaveTile
 {
-    initscr();              /* Start curses mode */
+public:
+    CCaveTile(): content(' '){}
+    CCaveTile(char _content): content(_content){}
 
-    CCave *cave = new CCave(5, 6, 2, 2);
-    cave->draw();
+    char content;
 
-    wgetch(cave->win);                /* Wait for user input */
-    //delete cave;
-    
-    endwin();               /* End curses mode */
-    return 0;
-}
+private:
 
+};
+
+#endif // CCAVETILE_H

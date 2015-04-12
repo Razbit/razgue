@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Razgue -- a roguelike video game by Razbit
+ * @brief A class describing a cave
  * @author Eetu "Razbit" Pesonen
  * @version 0.01
  * @date 2015
@@ -25,6 +25,8 @@
  * along with Razgue.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
+#include "ccave.h"
+#include "ccavetile.h"
 #include "platform.h"
 
 #ifdef PLATFORM_WIN32
@@ -33,21 +35,42 @@
 #include <curses.h>
 #endif
 
-#include "ccave.h"
+#include <stdlib.h>
 
-using namespace std;
-
-int main()
+CCave::CCave(int _w, int _h, int _x, int _y): w(_w), h(_h), x(_x), y(_y)
 {
-    initscr();              /* Start curses mode */
+    /* Allocate memory for the tiles */
+    tiles = new CCaveTile*[w];
+    for (int i = 0; i < w; i++)
+    {
+        tiles[i] = new CCaveTile[h];
+    }
 
-    CCave *cave = new CCave(5, 6, 2, 2);
-    cave->draw();
-
-    wgetch(cave->win);                /* Wait for user input */
-    //delete cave;
-    
-    endwin();               /* End curses mode */
-    return 0;
+    win = newwin(h, w, y, x);
 }
 
+CCave::~CCave()
+{
+    for (int i = 0; i < w; i++)
+    {
+        delete tiles[i];
+    }
+    delete tiles;
+
+    delwin(win);
+}
+
+int CCave::draw()
+{    
+    for (int i = 0; i < h; i++)
+    {
+        for (int j = 0; j < w; j++)
+        {
+            mvwaddch(win, y+i, x+j, '.');
+        }
+    }
+
+    box(win, 0, 0);
+    wrefresh(win);
+    return 0;
+}
