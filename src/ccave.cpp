@@ -46,10 +46,10 @@
 CCave::CCave(int _w, int _h, int _x, int _y): w(_w), h(_h), x(_x), y(_y)
 {
     /* Allocate memory for the tiles */
-    tiles = new CCaveTile*[w];
-    for (int i = 0; i < w; i++)
+    tiles = new CCaveTile*[h];
+    for (int i = 0; i < h; i++)
     {
-        tiles[i] = new CCaveTile[h];
+        tiles[i] = new CCaveTile[w];
     }
 
     win = newwin(h+2, w+2, y-1, x-1);
@@ -57,7 +57,7 @@ CCave::CCave(int _w, int _h, int _x, int _y): w(_w), h(_h), x(_x), y(_y)
 
 CCave::~CCave()
 {
-    for (int i = 0; i < w; i++)
+    for (int i = 0; i < h; i++)
     {
         delete tiles[i];
     }
@@ -72,7 +72,7 @@ int CCave::draw()
     {
         for (int j = 1; j <= w; j++)
         {
-            mvwaddch(win, i, j, '.');
+            mvwaddch(win, i, j, tiles[i-1][j-1].content);
         }
     }
 
